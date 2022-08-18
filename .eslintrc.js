@@ -42,6 +42,7 @@ module.exports = {
       'object-shorthand': ['error', 'always'],
       'space-before-blocks': 'error',
       '@typescript-eslint/array-type': 'error',
+      '@typescript-eslint/ban-ts-comment': 'off',
       '@typescript-eslint/explicit-function-return-type': 'error',
       '@typescript-eslint/explicit-member-accessibility': [
           'error',
@@ -74,12 +75,12 @@ module.exports = {
           },
           {
               selector: 'parameter',
-              format: ['camelCase'],
+              format: ['camelCase', 'snake_case'],
               leadingUnderscore: 'allow',
           },
           {
               selector: 'memberLike',
-              format: ['camelCase'],
+              format: ['camelCase', 'snake_case'],
               leadingUnderscore: 'allow',
           },
           {

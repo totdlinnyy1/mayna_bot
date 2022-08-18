@@ -1,22 +1,35 @@
-version: '3.8'
-
-volumes: 
-  db:
+volumes:
+  db-backups:
+  db-data:
 
 services:
   db:
-    image: postgres:13.1
-    restart: always
-    environment:
-      POSTGRES_USER: user
-      POSTGRES_PASSWORD: secret
+    image: kartoza/postgis
     volumes:
-      - db:/var/lib/postgresql/data
-      - ./postgresql.conf:/etc/postgresql/postgresql.conf
+      - db-data:/var/lib/postgresql
+    environment:
+      - POSTGRES_DB=mayna
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASS=postgres
+      - PASSWORD_AUTHENTICATION=md5
+      - POSTGRES_MULTIPLE_EXTENSIONS=postgis,hstore,postgis_topology,postgis_raster,pgrouting
     ports:
       - 5432:5432
-  adminer:
-    image: adminer
-    restart: always
-    ports:
-      - 8080:8080
+    restart: on-failure
+    healthcheck:
+      test: "exit 0"
+
+  dbbackups:
+    image: kartoza/pg-backup
+    volumes:
+      - db-backups:/backups
+    environment:
+      - DUMPPREFIX=PG_gis
+      - POSTGRES_HOST=db
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASS=postgres
+      - POSTGRES_PORT=5432
+    restart: on-failure
+    depends_on:
+      db:
+        condition: service_healthy
