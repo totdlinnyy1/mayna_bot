@@ -1,7 +1,8 @@
-import { Ctx, Hears, Start, Update } from 'nestjs-telegraf'
+import { Command, Ctx, Hears, Start, Update } from 'nestjs-telegraf'
 import { Context } from 'telegraf'
-import { WizardContext } from 'telegraf/typings/scenes'
+import { SceneContext, WizardContext } from 'telegraf/typings/scenes'
 
+import { CommandsEnum } from '../enums/commands.enum'
 import { SceneNamesEnum } from '../enums/scene-names.enum'
 
 @Update()
@@ -25,5 +26,10 @@ export class TelegramUpdate {
     @Hears('Поехали')
     async onGo(@Ctx() ctx: WizardContext): Promise<void> {
         await ctx.scene.enter(SceneNamesEnum.CREATE_USER)
+    }
+
+    @Command(CommandsEnum.BAN_USER)
+    async onBanUser(@Ctx() ctx: SceneContext): Promise<void> {
+        await ctx.scene.enter(SceneNamesEnum.BAN_USER)
     }
 }

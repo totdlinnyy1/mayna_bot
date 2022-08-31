@@ -32,4 +32,17 @@ export class UserEntity extends CommonBaseEntity {
 
     @Column('text', { default: '' })
     bio: string
+
+    @Column('boolean', { default: false })
+    isBanned: boolean
+
+    @Column('text', { nullable: true })
+    banReason: string
+
+    @Column({
+        type: 'timestamp with time zone',
+        name: 'banned_at',
+        nullable: true,
+    })
+    bannedAt?: Date
 }

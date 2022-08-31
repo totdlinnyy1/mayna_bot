@@ -4,6 +4,9 @@ import { Markup, NarrowedContext } from 'telegraf'
 import { SceneContext } from 'telegraf/typings/scenes'
 import { MountMap } from 'telegraf/typings/telegram-types'
 
+import { boyOrGirlButton } from '../../buttons/boy-or-girl.button'
+import { mainMenuButton } from '../../buttons/main-menu.button'
+import { skipButton } from '../../buttons/skip.button'
 import { MAX_AGE, MIN_AGE } from '../../constants/age.constant'
 import { SceneNamesEnum } from '../../enums/scene-names.enum'
 import { UserSexEnum } from '../../enums/user-sex.enum'
@@ -39,7 +42,8 @@ export class CreateUserScene {
                 createUserData.introduction.userExist.reply.message,
                 {
                     reply_markup: {
-                        remove_keyboard: true,
+                        keyboard: mainMenuButton,
+                        resize_keyboard: true,
                     },
                 },
             )
@@ -77,7 +81,7 @@ export class CreateUserScene {
                     {
                         reply_markup: {
                             resize_keyboard: true,
-                            keyboard: [[{ text: 'Пропустить' }]],
+                            keyboard: skipButton,
                         },
                     },
                 )
@@ -100,9 +104,7 @@ export class CreateUserScene {
                         {
                             reply_markup: {
                                 resize_keyboard: true,
-                                keyboard: [
-                                    [{ text: 'Парень' }, { text: 'Девушка' }],
-                                ],
+                                keyboard: boyOrGirlButton,
                             },
                         },
                     )
@@ -115,9 +117,7 @@ export class CreateUserScene {
                     {
                         reply_markup: {
                             resize_keyboard: true,
-                            keyboard: [
-                                [{ text: 'Парень' }, { text: 'Девушка' }],
-                            ],
+                            keyboard: boyOrGirlButton,
                         },
                     },
                 )
@@ -143,9 +143,7 @@ export class CreateUserScene {
                     {
                         reply_markup: {
                             resize_keyboard: true,
-                            keyboard: [
-                                [{ text: 'Парень' }, { text: 'Девушка' }],
-                            ],
+                            keyboard: boyOrGirlButton,
                         },
                     },
                 )
@@ -186,16 +184,7 @@ export class CreateUserScene {
                                 {
                                     reply_markup: {
                                         resize_keyboard: true,
-                                        keyboard: [
-                                            [
-                                                { text: 'Искать компанию' },
-                                                { text: 'Создать комнату' },
-                                            ],
-                                            [
-                                                { text: 'Моя комната' },
-                                                { text: 'Профиль' },
-                                            ],
-                                        ],
+                                        keyboard: mainMenuButton,
                                     },
                                 },
                             )
@@ -257,7 +246,7 @@ export class CreateUserScene {
             { reply_markup: { remove_keyboard: true } },
         )
         await ctx.reply(
-            'Напиши название города или отправьте координаты',
+            'Напиши название города или отправь координаты',
             Markup.keyboard([
                 Markup.button.locationRequest('Отправить местоположение'),
             ]).resize(),
