@@ -1,5 +1,5 @@
 import { Point } from 'geojson'
-import { Ctx, Hears, On, Scene, SceneEnter } from 'nestjs-telegraf'
+import { Ctx, On, Scene, SceneEnter } from 'nestjs-telegraf'
 import { Markup, NarrowedContext } from 'telegraf'
 import { SceneContext } from 'telegraf/typings/scenes'
 import { MountMap } from 'telegraf/typings/telegram-types'
@@ -11,6 +11,7 @@ import { MAX_AGE, MIN_AGE } from '../../constants/age.constant'
 import { SceneNamesEnum } from '../../enums/scene-names.enum'
 import { UserSexEnum } from '../../enums/user-sex.enum'
 import { GeolocationsService } from '../../geolocations/geolocations.service'
+import { cancel } from '../../helpers/cancel.helper'
 import { getUserId } from '../../helpers/get-user-id.helper'
 import { isNumeric } from '../../helpers/isNumeric'
 import { CreateUserDto } from '../dtos/create-user.dto'
@@ -62,10 +63,11 @@ export class CreateUserScene {
         }
     }
 
-    @Hears(/.*/)
-    async onHears(
+    @On('text')
+    async onText(
         @Ctx() ctx: NarrowedContext<SceneContext, MountMap['text']>,
     ): Promise<void> {
+        await cancel(ctx)
         const { step } = ctx.scene.state as State
         if (step === createUserData.getName.stepName) {
             const MAX_NAME_LENGTH = 30

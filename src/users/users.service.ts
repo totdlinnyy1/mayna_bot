@@ -2,6 +2,8 @@ import { Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
 
+import { UserRoleEnum } from '../enums/user-role.enum'
+
 import { BanUserDto } from './dtos/ban-user.dto'
 import { CreateUserDto } from './dtos/create-user.dto'
 import { UserEntity } from './enities/user.entity'
@@ -42,5 +44,9 @@ export class UsersService {
             { id: data.id },
             { isBanned: true, banReason: data.banReason, bannedAt: new Date() },
         )
+    }
+
+    async createAdmin(id: string): Promise<void> {
+        await this._usersRepository.update({ id }, { role: UserRoleEnum.ADMIN })
     }
 }
