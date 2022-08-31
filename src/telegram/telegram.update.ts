@@ -32,4 +32,9 @@ export class TelegramUpdate {
     async onBanUser(@Ctx() ctx: SceneContext): Promise<void> {
         await ctx.scene.enter(SceneNamesEnum.BAN_USER)
     }
+
+    @Command(CommandsEnum.CREATE_ADMIN)
+    async onCreateAdmin(@Ctx() ctx: SceneContext): Promise<void> {
+        await ctx.scene.enter(SceneNamesEnum.CREATE_ADMIN)
+    }
 }

@@ -12,7 +12,7 @@ export class UserEntity extends CommonBaseEntity {
     @Column('text')
     name: string
 
-    @Column('int', { unique: true })
+    @Column('numeric', { unique: true })
     chat_id: number
 
     @Column({ type: 'enum', enum: UserSexEnum })
